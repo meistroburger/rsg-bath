@@ -1,3 +1,5 @@
+local RSGCore = exports['rsg-core']:GetCoreObject()
+
 BathingSessions = {}
 
 Citizen.CreateThread(function() --// link own callback system

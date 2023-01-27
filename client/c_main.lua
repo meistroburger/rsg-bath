@@ -1,3 +1,5 @@
+local RSGCore = exports['rsg-core']:GetCoreObject()
+
 BathingPed = nil
 
 Citizen.CreateThread(function()
