@@ -7,44 +7,33 @@ Citizen.CreateThread(function()
     RegisterServerCallback("rsg-bath:canEnterBath", function(source, cb, town)
         local src = source
         local Player = RSGCore.Functions.GetPlayer(src)
-        
         if not BathingSessions[town] then
-            if player.getAccountMoney("money") >= Globals.Price then
+            if player.getAccountMoney("money") >= Globals.Price then -- CHANGE THIS
                 Player.Functions.RemoveMoney('cash', Globals.Price, 'Bath House - Default Service')
-
                 BathingSessions[town] = source
-
                 cb(true)
                 return
             else
-                -- Add Notification here
-                -- player.postToastNotification("bath_house", "Nie stać cię panoćku na kąpiel w naszej łaźni!", "")
+                TriggerClientEvent('RSGCore:Notify', src, 'You cant afford a Bath', 'error')
             end
         else 
-            -- Add Notification here
-            -- player.postToastNotification("bath_house", "Łaźnia jest zajęta!", "Wróć za jakiś czas.")
+            TriggerClientEvent('RSGCore:Notify', src, 'The bath is already occupied! Come back later!', 'error')
         end
-
         cb(false)
     end)
 
     RegisterServerCallback("rsg-bath:canBuyDeluxeBath", function(source, cb, town)
         if BathingSessions[town] == source then
-            
             local src = source
             local Player = RSGCore.Functions.GetPlayer(src)
-
-            if player.getAccountMoney("money") >= Globals.Deluxe then -- Need a check to be added
+            if player.getAccountMoney("money") >= Globals.Deluxe then -- CHANGE THIS
                 Player.Functions.RemoveMoney('cash', Globals.Deluxe, 'Bath House - Premium Service')
-
                 cb(true)
                 return
             else
-                -- Add Notification here
-                -- player.postToastNotification("bath_house", "Nie stać cię panoćku na luksusową kąpiel!", "")
+                TriggerClientEvent('RSGCore:Notify', src, 'You cant afford a Luxury Bath', 'error')
             end
         end
-
         cb(false)
     end)
 
