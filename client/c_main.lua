@@ -325,40 +325,11 @@ UnloadAllStreamings = function()
 end
 
 UndressCharacter = function() --// link own undress logic
-	--[[for index,data in pairs(Config.UndressElements) do
-		TriggerEvent('skinchanger:getSkin', function(skin)
-			if skin[data.category] then
-				Config.DressElements[data.category] = skin[data.category]
-
-				if Config.Special[data.category] and not IsPedMale(PlayerPedId()) then
-					local item = exports["skinchanger"]:GetClothByIndex(data.category, Config.Special[data.category])                                 
-					if item then
-						Citizen.InvokeNative(0x59BD177A1A48600A, PlayerPedId(), data.hash)
-						Citizen.InvokeNative(0xD3A7B003ED343FD9, PlayerPedId(), item.hash, true, item.isMP, false)
-					end
-                else
-                    Citizen.InvokeNative(0xD710A5007C2AC539, PlayerPedId(), data.hash, 0)
-                    Citizen.InvokeNative(0xCC8CA3E88256E58F, PlayerPedId(), 0, 1, 1, 1, 0)
-                end
-
-				Citizen.InvokeNative(0x704C908E9C405136, PlayerPedId())
-            end
-        end)
-    end]]
+	-- MAKE THE PED NAKED (OR HALF NAKED)
 end
 
 DressCharacter = function() --// link own dress logic
-	--[[for index,data in pairs(Config.UndressElements) do
-		if Config.DressElements[data.category] then
-			local item = exports["skinchanger"]:GetClothByIndex(data.category, Config.DressElements[data.category])
-			if item then
-				Citizen.InvokeNative(0x704C908E9C405136, PlayerPedId())
-				Citizen.InvokeNative(0x59BD177A1A48600A, PlayerPedId(), data.hash)
-				Citizen.InvokeNative(0xD3A7B003ED343FD9, PlayerPedId(), item.hash, false, item.isMP, false)
-				Config.DressElements[data.category] = nil
-			end
-		end
-    end]]
+	-- DRESS THE PED (PROBABLY USE THE LOADSKIN FUNCTION)
 end
 
 SetCurrentCleaniest = function(rag, value)
