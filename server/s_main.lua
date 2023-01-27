@@ -24,14 +24,17 @@ Citizen.CreateThread(function()
         end
 
         cb(false)
-        
+
     end)
 
     RegisterServerCallback("rsg-bath:canBuyDeluxeBath", function(source, cb, town)
+        local src = source
+        local Player = RSGCore.Functions.GetPlayer(src)
+        local Balance = Player.PlayerData.money["cash"]
+
         if BathingSessions[town] == source then
-            local src = source
-            local Player = RSGCore.Functions.GetPlayer(src)
-            if player.getAccountMoney("money") >= Globals.Deluxe then -- CHANGE THIS
+            
+            if Balance >= Globals.Deluxe then
                 Player.Functions.RemoveMoney('cash', Globals.Deluxe, 'Bath House - Premium Service')
                 cb(true)
                 return
@@ -39,7 +42,9 @@ Citizen.CreateThread(function()
                 TriggerClientEvent('RSGCore:Notify', src, 'You cant afford a Luxury Bath', 'error')
             end
         end
+
         cb(false)
+        
     end)
 
     RegisterServerEvent("rsg-bath:setBathAsFree")
