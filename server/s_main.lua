@@ -10,17 +10,19 @@ Citizen.CreateThread(function()
         
         if not BathingSessions[town] then
             if player.getAccountMoney("money") >= Globals.Price then
-                player.removeAccountMoney("money", Globals.Price)
+                Player.Functions.RemoveMoney('cash', Globals.Price, 'Bath House - Default Service')
 
                 BathingSessions[town] = source
 
                 cb(true)
                 return
             else
-                player.postToastNotification("bath_house", "Nie stać cię panoćku na kąpiel w naszej łaźni!", "")
+                -- Add Notification here
+                -- player.postToastNotification("bath_house", "Nie stać cię panoćku na kąpiel w naszej łaźni!", "")
             end
         else 
-            player.postToastNotification("bath_house", "Łaźnia jest zajęta!", "Wróć za jakiś czas.")
+            -- Add Notification here
+            -- player.postToastNotification("bath_house", "Łaźnia jest zajęta!", "Wróć za jakiś czas.")
         end
 
         cb(false)
