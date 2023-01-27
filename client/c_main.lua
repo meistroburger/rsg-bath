@@ -328,8 +328,8 @@ UndressCharacter = function() --// link own undress logic
 	-- MAKE THE PED NAKED (OR HALF NAKED)
 end
 
-DressCharacter = function() --// link own dress logic
-	-- DRESS THE PED (PROBABLY USE THE LOADSKIN FUNCTION)
+DressCharacter = function()
+	TriggerServerEvent("rsg-appearance:LoadSkin")
 end
 
 SetCurrentCleaniest = function(rag, value)
