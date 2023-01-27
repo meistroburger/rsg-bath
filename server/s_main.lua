@@ -2,9 +2,11 @@ local RSGCore = exports['rsg-core']:GetCoreObject()
 
 BathingSessions = {}
 
-Citizen.CreateThread(function() --// link own callback system
-    --[[RegisterServerCallback("rsg-bath:canEnterBath", function(source, cb, town)
-        local player = GetPlayerFromId(source)
+Citizen.CreateThread(function()
+    
+    RegisterServerCallback("rsg-bath:canEnterBath", function(source, cb, town)
+        local src = source
+        local Player = RSGCore.Functions.GetPlayer(src)
         
         if not BathingSessions[town] then
             if player.getAccountMoney("money") >= Globals.Price then
@@ -26,20 +28,23 @@ Citizen.CreateThread(function() --// link own callback system
 
     RegisterServerCallback("rsg-bath:canBuyDeluxeBath", function(source, cb, town)
         if BathingSessions[town] == source then
-            local player = GetPlayerFromId(source)
+            
+            local src = source
+            local Player = RSGCore.Functions.GetPlayer(src)
 
-            if player.getAccountMoney("money") >= Globals.Deluxe then
-                player.removeAccountMoney("money", Globals.Deluxe)
+            if player.getAccountMoney("money") >= Globals.Deluxe then -- Need a check to be added
+                Player.Functions.RemoveMoney('cash', Globals.Deluxe, 'Bath House - Premium Service')
 
                 cb(true)
                 return
             else
-                player.postToastNotification("bath_house", "Nie stać cię panoćku na luksusową kąpiel!", "")
+                -- Add Notification here
+                -- player.postToastNotification("bath_house", "Nie stać cię panoćku na luksusową kąpiel!", "")
             end
         end
 
         cb(false)
-    end)]]
+    end)
 
     RegisterServerEvent("rsg-bath:setBathAsFree")
     AddEventHandler("rsg-bath:setBathAsFree", function(town)
