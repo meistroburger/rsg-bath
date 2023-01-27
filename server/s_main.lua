@@ -7,8 +7,11 @@ Citizen.CreateThread(function()
     RegisterServerCallback("rsg-bath:canEnterBath", function(source, cb, town)
         local src = source
         local Player = RSGCore.Functions.GetPlayer(src)
+        local Balance = Player.PlayerData.money["cash"]
+
         if not BathingSessions[town] then
-            if player.getAccountMoney("money") >= Globals.Price then -- CHANGE THIS
+            
+            if Balance >= Globals.Price then
                 Player.Functions.RemoveMoney('cash', Globals.Price, 'Bath House - Default Service')
                 BathingSessions[town] = source
                 cb(true)
@@ -19,7 +22,9 @@ Citizen.CreateThread(function()
         else 
             TriggerClientEvent('RSGCore:Notify', src, 'The bath is already occupied! Come back later!', 'error')
         end
+
         cb(false)
+        
     end)
 
     RegisterServerCallback("rsg-bath:canBuyDeluxeBath", function(source, cb, town)
