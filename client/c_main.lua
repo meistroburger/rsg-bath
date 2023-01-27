@@ -271,21 +271,15 @@ ExitPremiumBath = function(animscene, town, cam, disableScrub)
 	SetAnimSceneEntity(animscene, "ARTHUR", PlayerPedId(), 0)
 	SetAnimSceneEntity(animscene, "Female", BathingPed, 0)
 	SetAnimSceneEntity(animscene, "Door", N_0xf7424890e4a094c0(Config.BathingZones[town].door, 0), 0)
-
 	LoadAnimScene(animscene)  
 	while not Citizen.InvokeNative(0x477122B8D05E7968, animscene, 1, 0) do Citizen.Wait(10) end --// _IS_ANIM_SCENE_LOADED
 	StartAnimScene(animscene)
-
 	RenderScriptCams(false, false, 0, true, false, 0)
-
 	while not Citizen.InvokeNative(0xD8254CB2C586412B, animscene, true) do Citizen.Wait(10) end --// _IS_ANIM_SCENE_FINISHED
-
 	TriggerEvent("rsg-bath:TASK_MOVE_NETWORK_BY_NAME_WITH_INIT_PARAMS", { PlayerPedId(), "Script_Mini_Game_Bathing_Regular", `CLIPSET@MINI_GAMES@BATHING@REGULAR@ARTHUR`, `DEFAULT`, "BATHING" })
 	TriggerEvent("rsg-bath:TASK_MOVE_NETWORK_ADVANCED_BY_NAME_WITH_INIT_PARAMS", { rag, "Script_Mini_Game_Bathing_Regular", `CLIPSET@MINI_GAMES@BATHING@REGULAR@RAG`, `DEFAULT`, "BATHING", { Config.BathingZones[town].rag.x, Config.BathingZones[town].rag.y, Config.BathingZones[town].rag.z }, Config.BathingZones[town].rag.w })	
-		
 	TogglePrompts({ "STOP_BATHING", "SCRUB" }, true)
 	if IsPromptEnabled("SCRUB") and disableScrub then TogglePrompts({ "SCRUB" }, false) end
-
 	RenderScriptCams(true, true, 0, true, false, 0)
 	DeletePed(BathingPed)
 end
@@ -299,12 +293,10 @@ LoadAllStreamings = function()
 	RequestAnimDict("MINI_GAMES@BATHING@REGULAR@RAG");
 	RequestAnimDict("MINI_GAMES@BATHING@DELUXE@ARTHUR");
 	RequestAnimDict("MINI_GAMES@BATHING@DELUXE@MAID");
-
 	RequestClipSet("CLIPSET@MINI_GAMES@BATHING@REGULAR@ARTHUR");
 	RequestClipSet("CLIPSET@MINI_GAMES@BATHING@REGULAR@RAG");
 	RequestClipSet("CLIPSET@MINI_GAMES@BATHING@DELUXE@ARTHUR");
 	RequestClipSet("CLIPSET@MINI_GAMES@BATHING@DELUXE@MAID");
-
 	Citizen.InvokeNative(0x2B6529C54D29037A, "Script_Mini_Game_Bathing_Regular");
 	Citizen.InvokeNative(0x2B6529C54D29037A, "Script_Mini_Game_Bathing_Deluxe");
 end
@@ -314,12 +306,10 @@ UnloadAllStreamings = function()
 	RemoveAnimDict("MINI_GAMES@BATHING@REGULAR@RAG");
 	RemoveAnimDict("MINI_GAMES@BATHING@DELUXE@ARTHUR");
 	RemoveAnimDict("MINI_GAMES@BATHING@DELUXE@MAID");
-
 	RemoveClipSet("CLIPSET@MINI_GAMES@BATHING@REGULAR@ARTHUR");
 	RemoveClipSet("CLIPSET@MINI_GAMES@BATHING@REGULAR@RAG");
 	RemoveClipSet("CLIPSET@MINI_GAMES@BATHING@DELUXE@ARTHUR");
 	RemoveClipSet("CLIPSET@MINI_GAMES@BATHING@DELUXE@MAID");
-
 	Citizen.InvokeNative(0x57A197AD83F66BBF, "Script_Mini_Game_Bathing_Regular");
 	Citizen.InvokeNative(0x57A197AD83F66BBF, "Script_Mini_Game_Bathing_Deluxe");
 end
@@ -338,13 +328,11 @@ SetCurrentCleaniest = function(rag, value)
 	SetTaskMoveNetworkSignalFloat(PlayerPedId(), "Cleanliness_Left_Leg", value);
 	SetTaskMoveNetworkSignalFloat(PlayerPedId(), "Cleanliness_Right_Leg", value);
 	SetTaskMoveNetworkSignalFloat(PlayerPedId(), "Cleanliness_Head", value);
-
 	SetTaskMoveNetworkSignalFloat(rag, "Cleanliness_Right_Arm", value);
 	SetTaskMoveNetworkSignalFloat(rag, "Cleanliness_Left_Arm", value);
 	SetTaskMoveNetworkSignalFloat(rag, "Cleanliness_Left_Leg", value);
 	SetTaskMoveNetworkSignalFloat(rag, "Cleanliness_Right_Leg", value);
 	SetTaskMoveNetworkSignalFloat(rag, "Cleanliness_Head", value);
-
 	if DoesEntityExist(BathingPed) then
 		SetTaskMoveNetworkSignalFloat(BathingPed, "Cleanliness_Right_Arm", value);
 		SetTaskMoveNetworkSignalFloat(BathingPed, "Cleanliness_Left_Arm", value);
@@ -377,9 +365,7 @@ RegisterPrompts = function()
         Citizen.InvokeNative(0x5DD02A8318420DD7, prompt, CreateVarString(10, "LITERAL_STRING", Config.Prompts[i].label))
         Citizen.InvokeNative(0xB5352B7494A08258, prompt, Config.Prompts[i].control or 0xDFF812F9)
         Citizen.InvokeNative(0x94073D5CA3F16B7B, prompt, Config.Prompts[i].time or 1000)
-
         Citizen.InvokeNative(0xF7AA2696A22AD8B9, prompt)
-
         Citizen.InvokeNative(0x8A0FB4D03A630D21, prompt, false)
         Citizen.InvokeNative(0x71215ACCFDE075EE, prompt, false)
 
@@ -390,6 +376,7 @@ RegisterPrompts = function()
     Config.Prompts = newTable
     return true
 end
+
 TogglePrompts = function(data, state)
     for index,prompt in pairs((data ~= "ALL" and data) or Config.Prompts) do
         if Config.Prompts[(data ~= "ALL" and prompt) or index] then
@@ -399,11 +386,13 @@ TogglePrompts = function(data, state)
     end
     PromptsEnabled = state
 end
+
 IsPromptCompleted = function(name)
     if Config.Prompts[name] then
         return Citizen.InvokeNative(0xE0F65F0640EF0617, Config.Prompts[name])
     end return
 end
+
 IsPromptEnabled = function(name)
     if Config.Prompts[name] then
 		return PromptIsEnabled(Config.Prompts[name])
